@@ -43,4 +43,4 @@ for epoch in range(epochs):
     b2.grad.zero_()
 
     if epoch % 10 == 0:
-        print(f'Epoch: {epoch} \t Loss: {loss.item()}')
+        print(f"Epoch: {epoch} \t Loss: {loss.item()}")

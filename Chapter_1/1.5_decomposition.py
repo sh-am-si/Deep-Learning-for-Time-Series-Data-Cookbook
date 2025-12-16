@@ -3,21 +3,21 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from statsmodels.tsa.seasonal import seasonal_decompose
 
-data = pd.read_csv('assets/datasets/time_series_solar.csv',
-                   parse_dates=['Datetime'],
-                   index_col='Datetime')
+data = pd.read_csv(
+    "assets/datasets/time_series_solar.csv",
+    parse_dates=["Datetime"],
+    index_col="Datetime",
+)
 
-series = data['Incoming Solar']
+series = data["Incoming Solar"]
 
-series_daily = series.resample('D').sum()
+series_daily = series.resample("D").sum()
 
-result = seasonal_decompose(x=series_daily,
-                            model='additive',
-                            period=365)
+result = seasonal_decompose(x=series_daily, model="additive", period=365)
 
 plot = result.plot()
 
-plot.savefig('assets/classical_decomposition.png')
+plot.savefig("assets/classical_decomposition.png")
 
 result.seasonal
 result.trend

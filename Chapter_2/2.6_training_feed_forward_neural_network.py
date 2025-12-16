@@ -40,4 +40,4 @@ for epoch in range(100):
     # Calling the step function on an Optimizer performs
     # an update on its parameters
     optimizer.step()
-    print(f'Epoch {epoch+1}, Loss: {loss.item()}')
+    print(f"Epoch {epoch + 1}, Loss: {loss.item()}")

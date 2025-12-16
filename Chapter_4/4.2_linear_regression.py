@@ -20,11 +20,12 @@ num_vars = mvtseries.shape[1] + 1
 
 
 def create_training_set(
-        data: pd.DataFrame,
-        n_lags: int,
-        horizon: int,
-        test_size: float = 0.2,
-        batch_size: int = 16):
+    data: pd.DataFrame,
+    n_lags: int,
+    horizon: int,
+    test_size: float = 0.2,
+    batch_size: int = 16,
+):
     data["target"] = data["Incoming Solar"]
     data["time_index"] = np.arange(len(data))
     data["group_id"] = 0  # Assuming a single group for simplicity
@@ -32,13 +33,10 @@ def create_training_set(
     time_indices = data["time_index"].values
 
     train_indices, _ = train_test_split(
-        time_indices,
-        test_size=test_size,
-        shuffle=False)
+        time_indices, test_size=test_size, shuffle=False
+    )
 
-    train_indices, _ = train_test_split(train_indices,
-                                        test_size=0.1,
-                                        shuffle=False)
+    train_indices, _ = train_test_split(train_indices, test_size=0.1, shuffle=False)
 
     train_df = data.loc[data["time_index"].isin(train_indices)]
     train_df_mod = train_df.copy()
@@ -49,8 +47,7 @@ def create_training_set(
     train_df_mod = train_df_mod.drop("Incoming Solar", axis=1)
 
     feature_names = [
-        col for col in data.columns
-        if col != "target" and col != "Incoming Solar"
+        col for col in data.columns if col != "target" and col != "Incoming Solar"
     ]
 
     training_dataset = TimeSeriesDataSet(
@@ -61,12 +58,10 @@ def create_training_set(
         max_encoder_length=n_lags,
         max_prediction_length=horizon,
         time_varying_unknown_reals=feature_names,
-        scalers={name: StandardScaler()
-                 for name in feature_names},
+        scalers={name: StandardScaler() for name in feature_names},
     )
 
-    loader = training_dataset.to_dataloader(batch_size=batch_size,
-                                            shuffle=False)
+    loader = training_dataset.to_dataloader(batch_size=batch_size, shuffle=False)
 
     return loader
 
@@ -82,11 +77,7 @@ class LinearRegressionModel(nn.Module):
 
 
 data_loader = create_training_set(
-    data=mvtseries,
-    n_lags=N_LAGS,
-    horizon=HORIZON,
-    batch_size=BATCH_SIZE,
-    test_size=0.3
+    data=mvtseries, n_lags=N_LAGS, horizon=HORIZON, batch_size=BATCH_SIZE, test_size=0.3
 )
 
 model = LinearRegressionModel(N_LAGS * num_vars, HORIZON)
@@ -97,7 +88,6 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 # 3) Training loop
 num_epochs = 10
 for epoch in range(num_epochs):
-
     for batch in data_loader:
         x, y = batch
 

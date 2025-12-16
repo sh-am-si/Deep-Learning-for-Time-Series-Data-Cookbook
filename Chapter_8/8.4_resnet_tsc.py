@@ -116,7 +116,6 @@ def conv1d_same_padding(input, weight, bias, stride, dilation, groups):
 
 
 class ConvBlock(nn.Module):
-
     def __init__(
         self, in_channels: int, out_channels: int, kernel_size: int, stride: int
     ) -> None:
@@ -167,7 +166,6 @@ class ResidualNeuralNetworkModel(nn.Module):
 
 
 class ResNNBlock(nn.Module):
-
     def __init__(self, in_channels: int, out_channels: int) -> None:
         super().__init__()
 
@@ -202,7 +200,6 @@ class ResNNBlock(nn.Module):
             )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:  # type: ignore
-
         if self.match_channels:
             return self.layers(x) + self.residual(x)
         return self.layers(x)

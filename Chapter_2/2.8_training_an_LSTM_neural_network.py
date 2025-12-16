@@ -24,7 +24,7 @@ class LSTM(nn.Module):
         return out
 
 
-lstm = LSTM(10, 20, 1) # 10 features, 20 hidden units, 1 output
+lstm = LSTM(10, 20, 1)  # 10 features, 20 hidden units, 1 output
 print(lstm)
 
 # 100 samples, 5 time steps, 10 features
@@ -42,4 +42,4 @@ for epoch in range(100):
     loss.backward()
     optimizer.step()
 
-    print(f'Epoch {epoch+1}, Loss: {loss.item()}')
+    print(f"Epoch {epoch + 1}, Loss: {loss.item()}")

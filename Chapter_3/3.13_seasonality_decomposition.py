@@ -34,10 +34,10 @@ series = pd.read_csv(
     "assets/datasets/time_series_solar.csv",
     parse_dates=["Datetime"],
     index_col="Datetime",
-)['Incoming Solar']
+)["Incoming Solar"]
 
 # Resample the data to daily frequency
-series = series.resample('D').sum()
+series = series.resample("D").sum()
 
 # Seasonal decomposition with STL
 from statsmodels.tsa.api import STL
@@ -46,18 +46,18 @@ series_decomp = STL(series, period=365).fit()
 seas_adj = series - series_decomp.seasonal
 
 df_aux = pd.DataFrame(
-    {'Seasonal': series_decomp.seasonal,
-     'Seasonally-adjusted': series - series_decomp.seasonal
-     }
+    {
+        "Seasonal": series_decomp.seasonal,
+        "Seasonally-adjusted": series - series_decomp.seasonal,
+    }
 )
-
 
 
 # show train.plot and
 # show series_decomp.seasonal.plot
 
 # forecasting the seasonal part
-seas_forecaster = NaiveForecaster(strategy='last', sp=365)
+seas_forecaster = NaiveForecaster(strategy="last", sp=365)
 seas_forecaster.fit(series_decomp.seasonal)
 seas_preds = seas_forecaster.predict(fh=[1])
 
@@ -105,7 +105,9 @@ for epoch in range(epochs):
     model.train()
     optimizer.zero_grad()
 
-    out = model(X_train).reshape(-1, )
+    out = model(X_train).reshape(
+        -1,
+    )
     loss = loss_fn(out, y_train)
     loss.backward()
     optimizer.step()
@@ -118,7 +120,14 @@ latest_obs = latest_obs.values.reshape(1, 3, -1)
 latest_obs_t = torch.from_numpy(latest_obs).type(torch.Tensor)
 
 model.eval()
-y_pred = model(latest_obs_t).reshape(-1, ).detach().numpy()
+y_pred = (
+    model(latest_obs_t)
+    .reshape(
+        -1,
+    )
+    .detach()
+    .numpy()
+)
 
 y_denorm = scaler.inverse_transform(y_pred.reshape(-1, 1)).flatten()
 

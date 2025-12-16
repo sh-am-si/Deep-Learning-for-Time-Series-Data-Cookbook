@@ -9,7 +9,8 @@ from sklearn.preprocessing import OneHotEncoder
 from sktime.transformations.series.fourier import FourierFeatures
 import matplotlib
 
-matplotlib.use('TkAgg')
+matplotlib.use("TkAgg")
+
 
 def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
     n_vars = 1 if len(data.shape) == 1 else data.shape[1]
@@ -39,10 +40,10 @@ series = pd.read_csv(
     "assets/datasets/time_series_solar.csv",
     parse_dates=["Datetime"],
     index_col="Datetime",
-)['Incoming Solar']
+)["Incoming Solar"]
 
 # Resample the data to daily frequency
-series = series.resample('D').sum()
+series = series.resample("D").sum()
 
 # train test split
 train, test = train_test_split(series, test_size=0.2, shuffle=False)
@@ -66,39 +67,39 @@ X_test, y_test = test_df.values[:, :-1], test_df.values[:, -1]
 ### Seasonal dummies
 
 
-date_features = DateTimeFeatures(ts_freq='D',
-                                 keep_original_columns=False,
-                                 feature_scope='efficient')
+date_features = DateTimeFeatures(
+    ts_freq="D", keep_original_columns=False, feature_scope="efficient"
+)
 
 train_dates = date_features.fit_transform(train_df.iloc[:, -1])
-train_dates = train_dates[['month_of_year', 'day_of_week']]
+train_dates = train_dates[["month_of_year", "day_of_week"]]
 
-encoder = OneHotEncoder(drop='first', sparse_output=False)
+encoder = OneHotEncoder(drop="first", sparse_output=False)
 encoded_feats = encoder.fit_transform(train_dates)
 
-train_dummies = pd.DataFrame(encoded_feats,
-                             columns=encoder.get_feature_names_out(),
-                             dtype=int)
+train_dummies = pd.DataFrame(
+    encoded_feats, columns=encoder.get_feature_names_out(), dtype=int
+)
 
 train_dummies.index = train_dates.index
 
 # on test data
 
 test_dates = date_features.transform(test_df.iloc[:, -1])
-test_dates = test_dates[['month_of_year', 'day_of_week']]
+test_dates = test_dates[["month_of_year", "day_of_week"]]
 
 test_encoded_feats = encoder.transform(test_dates)
 
-test_dummies = pd.DataFrame(test_encoded_feats,
-                            columns=encoder.get_feature_names_out(),
-                            dtype=int)
+test_dummies = pd.DataFrame(
+    test_encoded_feats, columns=encoder.get_feature_names_out(), dtype=int
+)
 
 # Same for Fourier series
 
 
-fourier = FourierFeatures(sp_list=[365.25],
-                          fourier_terms_list=[2],
-                          keep_original_columns=False)
+fourier = FourierFeatures(
+    sp_list=[365.25], fourier_terms_list=[2], keep_original_columns=False
+)
 
 train_fourier = fourier.fit_transform(train_df.iloc[:, -1])
 test_fourier = fourier.transform(test_df.iloc[:, -1])
@@ -147,7 +148,9 @@ for epoch in range(epochs):
     model.train()
     optimizer.zero_grad()
 
-    out = model(X_train).reshape(-1, )
+    out = model(X_train).reshape(
+        -1,
+    )
     loss = loss_fn(out, y_train)
     loss.backward()
     optimizer.step()
@@ -156,7 +159,9 @@ for epoch in range(epochs):
         print(f"Epoch: {epoch}, Loss: {loss.item()}")
 
 model.eval()
-y_pred = model(X_test).reshape(-1, )
+y_pred = model(X_test).reshape(
+    -1,
+)
 
 y_pred_np = y_pred.detach().numpy().reshape(-1, 1)
 y_pred_orig = scaler.inverse_transform(y_pred_np).flatten()

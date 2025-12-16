@@ -34,10 +34,10 @@ series = pd.read_csv(
     "assets/datasets/time_series_solar.csv",
     parse_dates=["Datetime"],
     index_col="Datetime",
-)['Incoming Solar']
+)["Incoming Solar"]
 
 # Resample the data to daily frequency
-series = series.resample('D').sum()
+series = series.resample("D").sum()
 
 data = series_to_supervised(series, n_in=3)
 
@@ -64,13 +64,10 @@ class CNNTimeseries(nn.Module):
     def __init__(self, input_dim, output_dim=1):
         super(CNNTimeseries, self).__init__()
 
-        self.conv1 = nn.Conv1d(in_channels=input_dim,
-                               out_channels=64,
-                               kernel_size=3,
-                               stride=1,
-                               padding=1)
-        self.fc = nn.Linear(in_features=64,
-                            out_features=output_dim)
+        self.conv1 = nn.Conv1d(
+            in_channels=input_dim, out_channels=64, kernel_size=3, stride=1, padding=1
+        )
+        self.fc = nn.Linear(in_features=64, out_features=output_dim)
 
     def forward(self, x):
         x = F.relu(self.conv1(x))
@@ -87,12 +84,16 @@ epochs = 200
 for epoch in range(epochs):
     model.train()
     optimizer.zero_grad()
-    out = model(X_train).reshape(-1, )
+    out = model(X_train).reshape(
+        -1,
+    )
     loss = loss_fn(out, y_train)
     loss.backward()
     optimizer.step()
 
 model.eval()
-y_pred = model(X_test).reshape(-1, )
+y_pred = model(X_test).reshape(
+    -1,
+)
 test_loss = loss_fn(y_pred, y_test)
 print(f"Test Loss: {test_loss.item()}")

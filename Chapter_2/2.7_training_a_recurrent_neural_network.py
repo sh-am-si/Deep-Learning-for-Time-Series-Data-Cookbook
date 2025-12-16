@@ -40,4 +40,4 @@ for epoch in range(100):
     loss.backward()
     optimizer.step()
 
-    print(f"Epoch {epoch+1}, Loss: {loss.item()}")
+    print(f"Epoch {epoch + 1}, Loss: {loss.item()}")

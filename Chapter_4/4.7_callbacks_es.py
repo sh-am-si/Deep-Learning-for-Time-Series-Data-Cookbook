@@ -24,12 +24,12 @@ n_vars = mvtseries.shape[1] - 1
 
 class MultivariateSeriesDataModule(pl.LightningDataModule):
     def __init__(
-            self,
-            data: pd.DataFrame,
-            n_lags: int,
-            horizon: int,
-            test_size: float = 0.2,
-            batch_size: int = 16,
+        self,
+        data: pd.DataFrame,
+        n_lags: int,
+        horizon: int,
+        test_size: float = 0.2,
+        batch_size: int = 16,
     ):
         super().__init__()
         self.data = data
@@ -177,13 +177,8 @@ datamodule = MultivariateSeriesDataModule(
 model = MultivariateLSTM(input_dim=n_vars, hidden_dim=10, num_layers=1, output_dim=1)
 
 early_stop_callback = EarlyStopping(
-    monitor="val_loss",
-    min_delta=0.00,
-    patience=3,
-    verbose=False,
-    mode="min"
+    monitor="val_loss", min_delta=0.00, patience=3, verbose=False, mode="min"
 )
 
-trainer = pl.Trainer(max_epochs=100,
-                     callbacks=[early_stop_callback])
+trainer = pl.Trainer(max_epochs=100, callbacks=[early_stop_callback])
 trainer.fit(model, datamodule)

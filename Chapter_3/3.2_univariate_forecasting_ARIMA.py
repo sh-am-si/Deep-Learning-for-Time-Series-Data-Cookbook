@@ -5,7 +5,7 @@ series = pd.read_csv(
     "assets/datasets/time_series_solar.csv",
     parse_dates=["Datetime"],
     index_col="Datetime",
-)['Incoming Solar']
+)["Incoming Solar"]
 
 # fit the ARIMA model
 # the order tuple (p, d, q) represents the order of the AR, I, and MA parts, respectively

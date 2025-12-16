@@ -20,7 +20,6 @@ HORIZON = 7
 
 
 class LogTransformation:
-
     @staticmethod
     def transform(x):
         xt = np.sign(x) * np.log(np.abs(x) + 1)
@@ -35,7 +34,6 @@ class LogTransformation:
 
 
 class LocalScaler:
-
     def __init__(self):
         self.scalers = {}
 

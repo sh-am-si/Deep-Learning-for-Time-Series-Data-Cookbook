@@ -191,7 +191,9 @@ def plot_losses(loss_tracking_callback):
 hidden_size = 30
 seq_len = 7
 
-datamodule = MultivariateSeriesDataModule(data=mvtseries, n_lags=seq_len, horizon=seq_len * 2)
+datamodule = MultivariateSeriesDataModule(
+    data=mvtseries, n_lags=seq_len, horizon=seq_len * 2
+)
 datamodule.setup()
 
 input_size = len(datamodule.feature_names)

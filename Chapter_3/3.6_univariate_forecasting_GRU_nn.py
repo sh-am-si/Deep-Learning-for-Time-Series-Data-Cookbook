@@ -33,10 +33,10 @@ series = pd.read_csv(
     "assets/datasets/time_series_solar.csv",
     parse_dates=["Datetime"],
     index_col="Datetime",
-)['Incoming Solar']
+)["Incoming Solar"]
 
 # Resample the data to daily frequency
-series = series.resample('D').sum()
+series = series.resample("D").sum()
 
 data = series_to_supervised(series, n_in=3)
 
@@ -75,10 +75,7 @@ class GRUNet(nn.Module):
         return out
 
 
-model = GRUNet(input_dim=1,
-               hidden_dim=32,
-               output_dim=1,
-               num_layers=1)
+model = GRUNet(input_dim=1, hidden_dim=32, output_dim=1, num_layers=1)
 
 loss_fn = nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
@@ -89,7 +86,9 @@ for epoch in range(epochs):
     model.train()
     optimizer.zero_grad()
 
-    out = model(X_train).reshape(-1, )
+    out = model(X_train).reshape(
+        -1,
+    )
     loss = loss_fn(out, y_train)
     loss.backward()
     optimizer.step()
@@ -98,6 +97,8 @@ for epoch in range(epochs):
         print(f"Epoch: {epoch}, Loss: {loss.item()}")
 
 model.eval()
-y_pred = model(X_test).reshape(-1, )
+y_pred = model(X_test).reshape(
+    -1,
+)
 test_loss = loss_fn(y_pred, y_test)
 print(f"Test Loss: {test_loss.item()}")

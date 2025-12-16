@@ -9,7 +9,6 @@ from scipy.special import inv_boxcox
 
 
 class LogTransformation:
-
     @staticmethod
     def transform(x):
         xt = np.sign(x) * np.log(np.abs(x) + 1)
@@ -51,10 +50,10 @@ series = pd.read_csv(
     "assets/datasets/time_series_solar.csv",
     parse_dates=["Datetime"],
     index_col="Datetime",
-)['Incoming Solar']
+)["Incoming Solar"]
 
 # Resample the data to daily frequency
-series = series.resample('D').sum()
+series = series.resample("D").sum()
 
 # train test split
 train, test = train_test_split(series, test_size=0.2, shuffle=False)
@@ -119,7 +118,9 @@ for epoch in range(epochs):
     model.train()
     optimizer.zero_grad()
 
-    out = model(X_train).reshape(-1, )
+    out = model(X_train).reshape(
+        -1,
+    )
     loss = loss_fn(out, y_train)
     loss.backward()
     optimizer.step()
@@ -128,7 +129,9 @@ for epoch in range(epochs):
         print(f"Epoch: {epoch}, Loss: {loss.item()}")
 
 model.eval()
-y_pred = model(X_test).reshape(-1, )
+y_pred = model(X_test).reshape(
+    -1,
+)
 
 y_pred_np = y_pred.detach().numpy().reshape(-1, 1)
 y_pred_denorm = scaler.inverse_transform(y_pred_np).flatten()
