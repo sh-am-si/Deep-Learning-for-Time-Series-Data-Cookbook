@@ -41,4 +41,6 @@ sns.heatmap(
 
 plt.xticks(rotation=30)
 
-plt.savefig("assets/corr_heatmap.png")
+plt.savefig("../assets/corr_heatmap.png")
+
+# %%
