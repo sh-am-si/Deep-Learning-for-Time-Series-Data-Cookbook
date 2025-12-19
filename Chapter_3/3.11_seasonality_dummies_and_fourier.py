@@ -148,9 +148,7 @@ for epoch in range(epochs):
     model.train()
     optimizer.zero_grad()
 
-    out = model(X_train).reshape(
-        -1,
-    )
+    out = model(X_train).reshape(-1)
     loss = loss_fn(out, y_train)
     loss.backward()
     optimizer.step()
@@ -159,9 +157,7 @@ for epoch in range(epochs):
         print(f"Epoch: {epoch}, Loss: {loss.item()}")
 
 model.eval()
-y_pred = model(X_test).reshape(
-    -1,
-)
+y_pred = model(X_test).reshape(-1)
 
 y_pred_np = y_pred.detach().numpy().reshape(-1, 1)
 y_pred_orig = scaler.inverse_transform(y_pred_np).flatten()

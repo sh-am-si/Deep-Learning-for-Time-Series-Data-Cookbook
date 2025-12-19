@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 import torch
 import torch.nn as nn
@@ -105,9 +104,7 @@ for epoch in range(epochs):
     model.train()
     optimizer.zero_grad()
 
-    out = model(X_train).reshape(
-        -1,
-    )
+    out = model(X_train).reshape(-1)
     loss = loss_fn(out, y_train)
     loss.backward()
     optimizer.step()
@@ -120,14 +117,7 @@ latest_obs = latest_obs.values.reshape(1, 3, -1)
 latest_obs_t = torch.from_numpy(latest_obs).type(torch.Tensor)
 
 model.eval()
-y_pred = (
-    model(latest_obs_t)
-    .reshape(
-        -1,
-    )
-    .detach()
-    .numpy()
-)
+y_pred = model(latest_obs_t).reshape(-1).detach().numpy()
 
 y_denorm = scaler.inverse_transform(y_pred.reshape(-1, 1)).flatten()
 

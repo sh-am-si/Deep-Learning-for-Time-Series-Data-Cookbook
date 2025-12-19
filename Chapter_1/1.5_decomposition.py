@@ -1,6 +1,4 @@
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
 from statsmodels.tsa.seasonal import seasonal_decompose
 
 data = pd.read_csv(

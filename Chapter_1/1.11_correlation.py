@@ -1,4 +1,4 @@
-#%%
+# %%
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -9,7 +9,7 @@ data = pd.read_csv(
     index_col="datetime",
 )
 data.head()
-#%%
+# %%
 stat_by_variable = {
     "Incoming Solar": "sum",
     "Wind Dir": "mean",
@@ -23,7 +23,7 @@ stat_by_variable = {
 }
 
 data_daily = data.resample("D").agg(stat_by_variable)
-#%%
+# %%
 # calculate the correlation matrix
 corr_matrix = data_daily.corr(method="pearson")
 

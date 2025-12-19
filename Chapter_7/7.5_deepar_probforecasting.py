@@ -1,6 +1,6 @@
 from neuralforecast.models import DeepAR
 from neuralforecast import NeuralForecast
-from neuralforecast.losses.pytorch import DistributionLoss, HuberMQLoss
+from neuralforecast.losses.pytorch import DistributionLoss
 import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
