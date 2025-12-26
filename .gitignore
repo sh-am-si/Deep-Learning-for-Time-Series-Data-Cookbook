@@ -12,6 +12,8 @@ tune_results
 logs
 assets/
 
+*.ckpt
+
 # C extensions
 *.so
 
