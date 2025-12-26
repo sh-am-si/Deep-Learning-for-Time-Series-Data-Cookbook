@@ -10,6 +10,7 @@ checkpoints/
 .idea
 tune_results
 logs
+assets/
 
 # C extensions
 *.so
