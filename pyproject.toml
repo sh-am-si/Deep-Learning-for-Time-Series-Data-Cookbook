@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "cpflows>=0.1.2",
     "gluonts>=0.16.2",
     "ipykernel>=7.1.0",
     "ipython>=9.8.0",
@@ -17,7 +18,7 @@ dependencies = [
     "pandas>=2.3.3",
     "plotly>=6.5.0",
     "polars>=1.36.1",
-    "pytorch-forecasting>=1.5.0",
+    "pytorch-forecasting[mqf2]>=1.5.0",
     "ray[data,serve,train,tune]>=2.53.0",
     "ruff>=0.14.10",
     "scikit-learn==1.7.2",
